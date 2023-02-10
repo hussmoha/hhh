@@ -1,121 +1,109 @@
-import * as React from 'react'; 
+import * as React from "react";
 import { useEffect, useState } from "react";
-import {AppBar, Box, Button, Toolbar, IconButton, InputBase, Typography, Avatar} from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search'; 
-import { styled, alpha } from '@mui/material/styles'; 
-import { Link, useLocation, useNavigate } from "react-router-dom"; 
-
-
-
-const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: 'auto',
-    },
-  }));
+import {
+  AppBar,
+  Box,
+  Button,
+  Toolbar,
   
-  const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }));
-  
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create('width'),
-      width: '100%',
-      [theme.breakpoints.up('sm')]: {
-        width: '12ch',
-        '&:focus': {
-          width: '20ch',
-        },
-      },
-    },
-  }));
+  Typography,
+  Avatar,
+} from "@mui/material";
 
-export default function NavBar() { 
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
+export default function NavBar() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem("profile")))
-  }, [location]) 
+    setUser(JSON.parse(localStorage.getItem("profile")));
+  }, [location]);
 
   const logout = () => {
     localStorage.clear()
     navigate("/SignIn")
   }
 
-
   return (
-    <Box component="nav" sx={{ backgroundColor: "#63D40"}} >
-      <AppBar >
-        <Toolbar> 
-            
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          > 
-             <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
-          </IconButton>
-          <Button variant="h6" color="inherit" sx={{ flexGrow: 0.65 }} >Measurement</Button> 
-          <Button variant="h6" color="inherit" sx={{ flexGrow: 0.65 }}>Calibration</Button> 
-          {user ? 
-          <>
-          <Box>
-            <Avatar alt={user.result.name} src={user.result.imageUrl}>{user?.result.name?.charAt(0)}</Avatar>
-            <Typography
-                variant="h6"
-                style={{ marginLeft: "5px", marginTop: "3px" }}
-              >
-                {user?.result.name}
-              </Typography>
-              <Button onClick={logout}>Log out</Button>
-          </Box>
-          </> :
-          <Button
-          component={Link}
-          variant="h4"
-          to="/SignIn"
-          sx={{ color: "#fff" }} 
-          
+    <AppBar>
+      <Toolbar
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          position: "-webkit-sticky",
+          position: "sticky",
+          top: "-5px",
+          zIndex: 2,
+          height: "70px",
+          minHeight: "70px",
+          width: "calc(100% - 1.5rem)",
+          backgroundColor: "#3338",
+          padding: "0 1rem",
+          boxShadow: "0 0.125rem 0.25rem 0 rgb(0 0 0 / 11%)",
+        }}
+      >
+        <Box
+          component="nav"
+          sx={{
+            display: "flex",
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: ".25rem",
+          }}
+        > 
+         <Typography component={Link} to="/"
+          variant="h4" 
+          sx={{ flexGrow: 0.5, display: "flex", justifyContent: "flex-start", color: "#fff", textDecoration: "none" }}
         >
-          Sign in
-        </Button>
-          }
-        </Toolbar>
-      </AppBar>
-    </Box> 
-
+          SPC Statistical Process Control
+        </Typography>
+         
+          <Button variant="h6" color="inherit" component={Link} to="/Measurement">
+            Measurement
+          </Button>
+          <Button variant="h6" color="inherit" component={Link} to="/Calibration">
+            Calibration
+          </Button> 
+          <Button variant="h6" color="inherit" component={Link} to="/Datas">
+            Added Datas
+          </Button>
+          {user ? (
+            <>
+              <Box
+                style={{
+                  display: "flex",
+                  float: "right",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Avatar alt={user.result.name} src={user.result.imageUrl}>
+                  {user?.result.name?.charAt(0)}
+                </Avatar>
+                <Typography
+                  variant="h6"
+                  style={{
+                    marginLeft: "5px",
+                    marginTop: "3px",
+                    display: "block",
+                  }}
+                >
+                  {user?.result.name}
+                </Typography>
+                <Button
+                  style={{ marginLeft: "10px", display: "block" }}
+                  color="inherit"
+                  onClick={logout}
+                >
+                  Log out
+                </Button>
+              </Box>
+            </>
+          ) : null}
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
-} 
-
-//<Button variant="h6" color="inherit">Login</Button> 
+}
