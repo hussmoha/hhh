@@ -5,26 +5,26 @@ import {
   Box,
   Button,
   Toolbar,
-  
+ 
   Typography,
   Avatar,
 } from "@mui/material";
 
-import { Link, useLocation, useNavigate } from "react-router-dom";
+
 
 export default function NavBar() {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
-  const location = useLocation();
-  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem("profile")));
-  }, [location]);
+    const profile = JSON.parse(localStorage.getItem("profile"));
+    setUser(profile);
+  }, []);
 
   const logout = () => {
     localStorage.clear()
-    navigate("/SignIn")
+
   }
+ 
 
   return (
     <AppBar>
@@ -39,7 +39,7 @@ export default function NavBar() {
           height: "70px",
           minHeight: "70px",
           width: "calc(100% - 1.5rem)",
-          backgroundColor: "#3338",
+          backgroundColor: "#022c47",
           padding: "0 1rem",
           boxShadow: "0 0.125rem 0.25rem 0 rgb(0 0 0 / 11%)",
         }}
@@ -54,22 +54,20 @@ export default function NavBar() {
             padding: ".25rem",
           }}
         > 
-         <Typography component={Link} to="/"
+         <Typography 
           variant="h4" 
           sx={{ flexGrow: 0.5, display: "flex", justifyContent: "flex-start", color: "#fff", textDecoration: "none" }}
         >
           SPC Statistical Process Control
         </Typography>
          
-          <Button variant="h6" color="inherit" component={Link} to="/Measurement">
-            Measurement
+          <Button variant="h6" color="inherit">
+            Measurements
           </Button>
-          <Button variant="h6" color="inherit" component={Link} to="/Calibration">
-            Calibration
+          <Button variant="h6" color="inherit" >
+            Calibrations
           </Button> 
-          <Button variant="h6" color="inherit" component={Link} to="/Datas">
-            Added Datas
-          </Button>
+          
           {user ? (
             <>
               <Box

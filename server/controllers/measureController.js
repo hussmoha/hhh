@@ -1,9 +1,14 @@
-import Measurements from "../models/measurements.js";
-
-const pool = require("path/to/pool");
+const Pool = require('pg').Pool 
+const pool = new Pool({
+  user: 'postgres',
+  host: 'localhost',
+  database: 'SPC',
+  password: 'qwerty',
+  port: 5432,
+});
 
 const getMeasurements = (request, response) => {
-  pool.query("SELECT * FROM Measurement ORDER BY id ASC", (error, results) => {
+  pool.query('SELECT * FROM Measurement ORDER BY part_Id ASC', (error, results) => {
     if (error) {
       throw error;
     }
@@ -11,12 +16,12 @@ const getMeasurements = (request, response) => {
   });
 };
 
-const getMeasurementById = (request, response) => {
-  const id = parseInt(request.params.id);
+const getMeasurementByPartId = (request, response) => {
+  const partId = request.params.partId;
 
   pool.query(
-    "SELECT * FROM Measurement WHERE id = $1",
-    [id],
+    'SELECT * FROM Measurement WHERE part_Id = $1',
+    [partId],
     (error, results) => {
       if (error) {
         throw error;
@@ -28,71 +33,76 @@ const getMeasurementById = (request, response) => {
 
 const createMeasurement = (request, response) => {
   const {
-    partName,
+    batchNumber,
     partId,
     creator,
-    factoryName,
-    address,
-    start_date,
-    end_date,
+    date,
+    approved,
+    Fz1,
+    Hxy2,
+    Fy3,
+    Fx4,
+    Fx5,
   } = request.body;
 
   pool.query(
-    "INSERT INTO Measurement (partName, partId, creator, factoryName, address, start_date, end_date) VALUES ($1, $2, $3, $4, $5, $6, $7)",
-    [partName, partId, creator, factoryName, address, start_date, end_date],
+    'INSERT INTO Measurement (BatchNumber, part_Id, creator, date, approved, 1Fz, 2Hxy, 3Fy, 4Fx, 5Fx) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
+    [batchNumber, partId, creator, date, approved, Fz1, Hxy2, Fy3, Fx4, Fx5],
     (error, results) => {
       if (error) {
         throw error;
       }
       response
         .status(201)
-        .send(`Measurement added with ID: ${results.insertId}`);
+        .send(`Measurement added with partId: ${partId}`);
     }
   );
 };
 
 const updateMeasurement = (request, response) => {
-  const id = parseInt(request.params.id);
+  const partId = request.params.partId;
   const {
-    partName,
-    partId,
+    batchNumber,
     creator,
-    factoryName,
-    address,
-    start_date,
-    end_date,
+    date,
+    approved,
+    Fz1,
+    Hxy2,
+    Fy3,
+    Fx4,
+    Fx5,
   } = request.body;
 
   pool.query(
-    "UPDATE Measurement SET partName = $1, partId = $2, creator = $3, factoryName = $4, address = $5, start_date = $6, end_date = $7 WHERE id = $8",
-    [partName, partId, creator, factoryName, address, start_date, end_date, id],
+    'UPDATE Measurement SET BatchNumber = $1, creator = $2, date = $3, approved = $4, 1Fz = $5, 2Hxy = $6, 3Fy = $7, 4Fx = $8, 5Fx = $9 WHERE part_Id = $10',
+    [batchNumber, creator, date, approved, Fz1, Hxy2, Fy3, Fx4, Fx5, partId],
     (error, results) => {
       if (error) {
         throw error;
       }
-      response.status(200).send(`Measurement modified with ID: ${id}`);
+      response.status(200).send(`Measurement modified with partId: ${partId}`);
     }
   );
 };
 
 const deleteMeasurement = (request, response) => {
-  const id = parseInt(request.params.id);
+  const partId = request.params.partId;
 
   pool.query(
-    "DELETE FROM Measurement WHERE id = $1",
-    [id],
+    'DELETE FROM Measurement WHERE part_Id = $1',
+    [partId],
     (error, results) => {
       if (error) {
         throw error;
       }
-      response.status(200).send(`Measurement deleted with ID: ${id}`);
+      response.status(200).send(`Measurement deleted with partId: ${partId}`);
     }
-  );
-};
+    );
+  };
 
 module.exports = {
   getMeasurements,
-  getMeasurementById,
+  getMeasurementByPartId,
   createMeasurement,
   updateMeasurement,
   deleteMeasurement,

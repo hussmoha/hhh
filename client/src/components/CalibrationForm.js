@@ -1,28 +1,35 @@
 import React from "react";
-import { Paper, TextField, Button, Grid } from "@material-ui/core";
+import { Paper, TextField, Button, Grid } from "@mui/material";
 import { useState } from "react";
 import axios from "axios";
 
 function CalibrationForm() {
-  const [calibrationFormData, setCalibrationFormData] = useState({
-    creator: " ",
-    equipment: "",
-    id: "",
-    date: "0",
-    field5: "0",
-    field6: "0",
-    field7: "0",
-    field8: "0",
-  });
+    const [creator, setCreator] = useState("");
+    const [equipment, setEquipment] = useState("");
+    const [id, setId] = useState("");
+    const [date, setDate] = useState("");
+    const [field5, setField5] = useState("");
+    const [field6, setField6] = useState();
+    const [field7, setField7] = useState("");
+    const [field8, setField8] = useState("");
 
-  const handleChange = (e) => {
-    setCalibrationFormData({ ...calibrationFormData, [e.target.name]: e.target.value });
-  };
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    e.preventDefault();
+    const calibration = {
+        creator,
+        equipment,
+        id,
+        date,
+        field5,
+        field6,
+        field7,
+        field8 
+    };
     try {
-      await axios.post("http://localhost:3001/Calibrationposts", calibrationFormData);
+      await axios.post("http://localhost:3001/Calibrationposts", calibration);
       alert("Data added successfully!");
     } catch (error) {
       console.error(error);
@@ -42,53 +49,46 @@ function CalibrationForm() {
             <TextField
               label="Creator"
               type="string"
-              value={calibrationFormData.creator}
-              onChange={handleChange}
+              value={creator}
+              onChange={(e) => setCreator(e.target.value)}
               variant="outlined"
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              label="Calibration equipment"
-              type="string"
-              value={calibrationFormData.equipment}
-              onChange={handleChange}
-              variant="outlined"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              label=""
-              type="date"
-              value={calibrationFormData.field3}
-              onChange={handleChange}
-              variant="outlined"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              label="Input 4"
-              type="number"
-              value={calibrationFormData.field4}
-              onChange={handleChange}
-              variant="outlined"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
+          <TextField
               label="Input 5"
               type="number"
-              value={calibrationFormData.field5}
-              onChange={handleChange}
+              value={field5}
+              onChange={(e) => setField5(e.target.value)}
+              variant="outlined"
+            /> 
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              label="Date"
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
               variant="outlined"
             />
           </Grid>
+         
           <Grid item xs={6}>
             <TextField
               label="Input 6"
               type="number"
-              value={calibrationFormData.field6}
-              onChange={handleChange}
+              value={field6}
+              onChange={(e) => setField6(e.target.value)}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={6}>
+           
+            <TextField
+              label="Calibration equipment"
+              type="string"
+              value={equipment}
+              onChange={(e) => setEquipment(e.target.value)}
               variant="outlined"
             />
           </Grid>
@@ -96,30 +96,18 @@ function CalibrationForm() {
             <TextField
               label="Input 7"
               type="number"
-              value={calibrationFormData.field7}
-              onChange={handleChange}
+              value={field7}
+              onChange={(e) => setField7(e.target.value)}
               variant="outlined"
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              label="Input 8"
-              type="number"
-              value={calibrationFormData.field8}
-              onChange={handleChange}
-              variant="outlined"
-            />
+           
           </Grid>
           <Grid item xs={12}>
-            <Button
-              variant="outlined"
-              color="primary"
-              type="submit"
-              midWidth
-              size="big"
-            >
-              Submit
-            </Button>
+          <Button variant="contained" type="submit" midWidth size="large">
+          Submit
+        </Button>
           </Grid>
         </Grid>
       </form>
