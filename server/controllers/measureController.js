@@ -8,7 +8,7 @@ const pool = new Pool({
 });
 
 const getMeasurements = (request, response) => {
-  pool.query('SELECT * FROM spc_schema.measurement ORDER BY part_Id ASC', (error, results) => {
+  pool.query('SELECT * FROM spc_schema.measurement', (error, results) => {
     if (error) {
       throw error;
     }
@@ -34,21 +34,20 @@ const getMeasurementByPartId = (request, response) => {
 const createMeasurement = async (request, response) => {
   try {
     const {
-      batchNumber,
-      partId,
+      batch_number,
       creator,
       date,
       approved,
-      Fz1,
-      Hxy2,
-      Fy3,
-      Fx4,
-      Fx5,
-    } = req.body;
+      fz1,
+      hxy2,
+      fy3,
+      fx4,
+      fx5,
+    } = request.body;
     const newMeasure = await pool.query(
-      'INSERT INTO spc_schema.measurement ( part_Id, creator, approved, date, Batch_number, "1Fz", "2Hxy", "3Fy", "4Fx", "5Fx") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
-      [partId, creator, approved, date, batchNumber, Fz1, Hxy2, Fy3, Fx4, Fx5]);
-    res.json(newMeasure)
+      `INSERT INTO spc_schema.measurement ( creator, approved, date, batch_number, fz1, hxy2, fy3, fx4, fx5) 
+      VALUES ($1, $2, $3,$4, $5, $6, $7, $8, $9)`,[ creator, approved, date, batch_number, fz1, hxy2, fy3, fx4, fx5])
+    response.json(newMeasure)
   } catch (err) {
     console.error(err.message)
   }

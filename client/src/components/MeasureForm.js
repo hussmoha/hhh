@@ -4,35 +4,35 @@ import axios from "axios";
 import spc_logo from "../spc_logo.PNG";
 
 const MeasureForm = () => {
-  const [batchNumber, setBatchNumber] = useState("");
+  const [batch_number, setBatchNumber] = useState("");
   const [partId, setPartId] = useState("");
   const [creator, setCreator] = useState("");
   const [approved, setApproved] = useState("");
   const [Date, setDate] = useState("");
-  const [Fz1, setFz1] = useState("");
-  const [Hxy2, setHxy2] = useState("");
-  const [Fy3, setFy3] = useState("");
-  const [Fx4, setFx4] = useState("");
-  const [Fx5, setFx5] = useState("");
+  const [fz1, setFz1] = useState("");
+  const [hxy2, setHxy2] = useState("");
+  const [fy3, setFy3] = useState("");
+  const [fx4, setFx4] = useState("");
+  const [fx5, setFx5] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const measurement = {
-      batchNumber,
+      batch_number,
       partId,
       creator,
       approved,
       Date,
-      Fz1,
-      Hxy2,
-      Fy3,
-      Fx4,
-      Fx5,
+      fz1,
+      hxy2,
+      fy3,
+      fx4,
+      fx5,
     };
   
     try {
       const response = await axios.post(
-        "http://localhost:3001/measurements",
+        "http://localhost:3001/api/measurements",
         measurement
       );
       console.log(response.data);
@@ -53,7 +53,7 @@ const MeasureForm = () => {
             label="Batch number"
             type={"number"}
             required
-            value={batchNumber}
+            value={batch_number}
             onChange={(e) => setBatchNumber(e.target.value)}
             margin="normal"
           />
@@ -104,7 +104,7 @@ const MeasureForm = () => {
             type={"number"}
             step={0.01}
             required
-            value={Fz1}
+            value={fz1}
             onChange={(e) => setFz1(e.target.value)}
             margin="normal"
           />
@@ -113,7 +113,7 @@ const MeasureForm = () => {
             label=" RPS 2Hxy"
             type={"number"}
             required
-            value={Hxy2}
+            value={hxy2}
             onChange={(e) => setHxy2(e.target.value)}
             margin="normal"
           />
@@ -122,7 +122,7 @@ const MeasureForm = () => {
             label="RPS 3Fy"
             type={"number"}
             required
-            value={Fy3}
+            value={fy3}
             onChange={(e) => setFy3(e.target.value)}
             margin="normal"
           />
@@ -131,7 +131,7 @@ const MeasureForm = () => {
             label=" RPS 4Fx"
             type={"number"}
             required
-            value={Fx4}
+            value={fx4}
             onChange={(e) => setFx4(e.target.value)}
             margin="normal"
           />
@@ -140,7 +140,7 @@ const MeasureForm = () => {
             label="RPS 5Fx"
             type={"number"}
             required
-            value={Fx5}
+            value={fx5}
             onChange={(e) => setFx5(e.target.value)}
             margin="normal"
           />
