@@ -102,6 +102,7 @@ const MeasureForm = () => {
             variant="outlined"
             label=" RPS 1Fz"
             type={"number"}
+            step={0.01}
             required
             value={Fz1}
             onChange={(e) => setFz1(e.target.value)}
