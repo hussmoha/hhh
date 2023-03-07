@@ -9,11 +9,11 @@ const MeasureForm = () => {
   const [creator, setCreator] = useState("");
   const [approved, setApproved] = useState("");
   const [Date, setDate] = useState("");
-  const [fz1, setFz1] = useState("");
-  const [hxy2, setHxy2] = useState("");
-  const [fy3, setFy3] = useState("");
-  const [fx4, setFx4] = useState("");
-  const [fx5, setFx5] = useState("");
+  const [sc1, setSc1] = useState("");
+  const [sc2, setSc2] = useState("");
+  const [sc3, setSc3] = useState("");
+  const [sc4, setSc4] = useState("");
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,11 +23,11 @@ const MeasureForm = () => {
       creator,
       approved,
       Date,
-      fz1,
-      hxy2,
-      fy3,
-      fx4,
-      fx5,
+      sc1,
+      sc2,
+      sc3,
+      sc4,
+     
     };
   
     try {
@@ -73,9 +73,6 @@ const MeasureForm = () => {
             value={Date}
             required
             onChange={(e) => setDate(e.target.value)}
-            InputLabelProps={{
-              shrink: true,
-            }}
             margin="normal"
           />
           <TextField
@@ -100,50 +97,45 @@ const MeasureForm = () => {
         <Grid item xs={3}>
           <TextField
             variant="outlined"
-            label=" RPS 1Fz"
+            label=" SC1"
             type={"number"}
             step={0.01}
             required
-            value={fz1}
-            onChange={(e) => setFz1(e.target.value)}
+            value={sc1}
+            onChange={(e) => setSc1(e.target.value)}
             margin="normal"
           />
           <TextField
             variant="outlined"
-            label=" RPS 2Hxy"
+            label=" SC2"
             type={"number"}
+            step={0.01}
             required
-            value={hxy2}
-            onChange={(e) => setHxy2(e.target.value)}
+            value={sc2}
+            onChange={(e) => setSc2(e.target.value)}
             margin="normal"
           />
-          <TextField
+           <TextField
             variant="outlined"
-            label="RPS 3Fy"
+            label=" SC3"
             type={"number"}
+            step={0.01}
             required
-            value={fy3}
-            onChange={(e) => setFy3(e.target.value)}
+            value={sc3}
+            onChange={(e) => setSc3(e.target.value)}
             margin="normal"
           />
-          <TextField
+           <TextField
             variant="outlined"
-            label=" RPS 4Fx"
+            label=" SC4"
             type={"number"}
+            step={0.01}
             required
-            value={fx4}
-            onChange={(e) => setFx4(e.target.value)}
+            value={sc4}
+            onChange={(e) => setSc4(e.target.value)}
             margin="normal"
           />
-          <TextField
-            variant="outlined"
-            label="RPS 5Fx"
-            type={"number"}
-            required
-            value={fx5}
-            onChange={(e) => setFx5(e.target.value)}
-            margin="normal"
-          />
+          
         </Grid>
 
         <img

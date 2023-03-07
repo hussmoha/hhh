@@ -1,4 +1,4 @@
-const Pool = require('pg').Pool 
+const Pool = require('pg').Pool
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
@@ -12,9 +12,16 @@ const getMeasurements = (request, response) => {
     if (error) {
       throw error;
     }
-    response.status(200).json(results.rows);
+    const measurements = results.rows;
+    let tableHtml = '<table><thead><tr><th>Creator</th><th>Approved</th><th>Date</th><th>Batch Number</th><th>SC1</th><th>SC2</th><th>SC3</th><th>SC4</th></tr></thead><tbody>';
+    measurements.forEach(measurement => {
+      tableHtml += '<tr><td>' + measurement.creator + '</td><td>' + measurement.approved + '</td><td>' + measurement.date + '</td><td>' + measurement.batch_number + '</td><td>' + measurement.sc1 + '</td><td>' + measurement.sc2 + '</td><td>' + measurement.sc3 + '</td><td>' + measurement.sc4 + '</td></tr>';
+    });
+    tableHtml += '</tbody></table>';
+    response.send(tableHtml);
   });
 };
+
 
 const getMeasurementByPartId = (request, response) => {
   const partId = request.params.partId;
@@ -36,17 +43,24 @@ const createMeasurement = async (request, response) => {
     const {
       batch_number,
       creator,
-      date,
       approved,
-      fz1,
-      hxy2,
-      fy3,
-      fx4,
-      fx5,
+      Date,
+      sc1,
+      sc2,
+      sc3,
+      sc4,
     } = request.body;
     const newMeasure = await pool.query(
-      `INSERT INTO spc_schema.measurement ( creator, approved, date, batch_number, fz1, hxy2, fy3, fx4, fx5) 
-      VALUES ($1, $2, $3,$4, $5, $6, $7, $8, $9)`,[ creator, approved, date, batch_number, fz1, hxy2, fy3, fx4, fx5])
+      `INSERT INTO spc_schema.measurement ( creator, approved, date, batch_number, sc1, sc2, sc3, sc4) 
+      VALUES ($1, $2, $3,$4, $5, $6, $7, $8)`, [
+      creator,
+      approved,
+      Date, 
+      batch_number,
+      sc1,
+      sc2,
+      sc3,
+      sc4,])
     response.json(newMeasure)
   } catch (err) {
     console.error(err.message)
@@ -57,20 +71,27 @@ const createMeasurement = async (request, response) => {
 const updateMeasurement = (request, response) => {
   const partId = request.params.partId;
   const {
-    batchNumber,
+    batch_number,
     creator,
-    date,
     approved,
-    Fz1,
-    Hxy2,
-    Fy3,
-    Fx4,
-    Fx5,
+    Date,
+    sc1,
+    sc2,
+    sc3,
+    sc4,
   } = request.body;
 
   pool.query(
-    'UPDATE spc_schema.measurement SET Batch_number = $1, creator = $2, date = $3, approved = $4, 1Fz = $5, 2Hxy = $6, 3Fy = $7, 4Fx = $8, 5Fx = $9 WHERE part_Id = $10',
-    [batchNumber, creator, date, approved, Fz1, Hxy2, Fy3, Fx4, Fx5, partId],
+    'UPDATE spc_schema.measurement SET Batch_number = $1, creator = $2, date = $3, approved = $4, sc1 = $5, sc2 = $6, sc3 = $7, sc4 = $8 WHERE part_Id = $10',
+    [batch_number,
+      partId,
+      creator,
+      approved,
+      Date,
+      sc1,
+      sc2,
+      sc3,
+      sc4,],
     (error, results) => {
       if (error) {
         throw error;
@@ -92,8 +113,8 @@ const deleteMeasurement = (request, response) => {
       }
       response.status(200).send(`Measurement deleted with partId: ${partId}`);
     }
-    );
-  };
+  );
+};
 
 module.exports = {
   getMeasurements,
