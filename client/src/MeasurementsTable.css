@@ -1,0 +1,23 @@
+.measurements-table { 
+    
+    width: 90%;
+    border-collapse: collapse;
+    border-spacing: 0 10px;
+    border: 1px solid black; /* add outline to table */
+  }
+  
+  .measurements-table th,
+  .measurements-table td {
+    padding: 10px; /* add padding to cells */
+    border: 1px solid black; /* add outline to cells */
+  }
+  
+  .measurements-table thead th {
+    background-color: #5c5757; /* add background color to header cells */
+  }
+  
+  .measurements-table tbody tr:nth-child(even) {
+    background-color: lightgrey; /* add background color to even rows */
+  }
+  
+ 

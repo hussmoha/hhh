@@ -8,7 +8,8 @@ import {
  
   Typography,
   Avatar,
-} from "@mui/material";
+} from "@mui/material"; 
+import { Link } from "react-router-dom"; 
 
 
 
@@ -55,13 +56,13 @@ export default function NavBar() {
           }}
         > 
          <Typography 
-          variant="h4" 
+          variant="h4" component={Link} to="/"
           sx={{ flexGrow: 0.5, display: "flex", justifyContent: "flex-start", color: "#fff", textDecoration: "none" }}
         >
           SPC Statistical Process Control
         </Typography>
          
-          <Button variant="h6" color="inherit">
+          <Button component={Link} to="/MeasurementDatas" variant="h6" color="inherit">
             Measurements
           </Button>
           <Button variant="h6" color="inherit" >

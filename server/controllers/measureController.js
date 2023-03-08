@@ -13,14 +13,10 @@ const getMeasurements = (request, response) => {
       throw error;
     }
     const measurements = results.rows;
-    let tableHtml = '<table><thead><tr><th>Creator</th><th>Approved</th><th>Date</th><th>Batch Number</th><th>SC1</th><th>SC2</th><th>SC3</th><th>SC4</th></tr></thead><tbody>';
-    measurements.forEach(measurement => {
-      tableHtml += '<tr><td>' + measurement.creator + '</td><td>' + measurement.approved + '</td><td>' + measurement.date + '</td><td>' + measurement.batch_number + '</td><td>' + measurement.sc1 + '</td><td>' + measurement.sc2 + '</td><td>' + measurement.sc3 + '</td><td>' + measurement.sc4 + '</td></tr>';
-    });
-    tableHtml += '</tbody></table>';
-    response.send(tableHtml);
+    response.json(measurements);
   });
 };
+
 
 
 const getMeasurementByPartId = (request, response) => {

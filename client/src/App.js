@@ -1,10 +1,12 @@
 import React from "react";
-//import SignIn from "./components/SignIn";
+import SignIn from "./components/SignIn";
 import NavBar from "./components/NavBar";
+import { Route, Routes} from "react-router-dom";
 
-import CalibrationForm from "./components/CalibrationForm";
+import './App.css';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import MeasureForm from "./components/MeasureForm";
+import MeasurementsTable from "./components/MeasurementsTable";
 
 
 
@@ -14,8 +16,13 @@ function App() {
     <GoogleOAuthProvider clientId='851970879521-al6kfvd8os51knkbtg9sljvbl35eii1d.apps.googleusercontent.com'>
       <div className="App">
         <NavBar />
-        <MeasureForm />
-
+        <div className="container">
+        <Routes> 
+          <Route path="/SignIn" element={<SignIn/>}/>
+          <Route path="/" element={<MeasureForm/>}/> 
+          <Route path="/MeasurementDatas" element={<MeasurementsTable />}/>
+        </Routes>
+        </div>
       </div>
     </GoogleOAuthProvider>
 
