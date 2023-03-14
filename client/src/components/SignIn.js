@@ -10,7 +10,8 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-export default function SignIn() {
+export default function SignIn() { 
+  const navigate = useNavigate();
   
   return (
     
@@ -29,7 +30,7 @@ export default function SignIn() {
 
         <GoogleLogin
           onSuccess={credentialResponse => {
-            signInGoogle(credentialResponse);
+            signInGoogle(credentialResponse, navigate);
           }}
           onError={() => {
             console.log('Login Failed');

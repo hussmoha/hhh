@@ -9,7 +9,7 @@ const MeasureForm = () => {
   const [partId, setPartId] = useState("");
   const [creator, setCreator] = useState("");
   const [approved, setApproved] = useState("");
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState("");
   const [sc1, setSc1] = useState("");
   const [sc2, setSc2] = useState("");
   const [sc3, setSc3] = useState("");
@@ -71,8 +71,8 @@ const MeasureForm = () => {
           />
           <TextField
         variant="outlined"
-        label="Date and Time"
-        type="datetime-local"
+        
+        type="date"
         value={date}
         required
         onChange={(e) => setDate(e.target.value)}
