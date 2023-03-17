@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { TextField, Button, Grid } from "@mui/material";
 import axios from "axios";
-
-import spc_logo from "../spc_logo.PNG";
+import { format } from 'date-fns';
+//import spc_logo from "../spc_logo.PNG";
 
 const MeasureForm = () => {
   const [batch_number, setBatchNumber] = useState("");
@@ -23,7 +23,7 @@ const MeasureForm = () => {
       partId,
       creator,
       approved,
-      Date,
+      date,
       sc1,
       sc2,
       sc3,
@@ -36,7 +36,7 @@ const MeasureForm = () => {
         "http://localhost:3001/api/measurements",
         measurement
       );
-      console.log(response.data); 
+      console.log(response.data);
       alert("Data added successfully!");
     } catch (error) {
       console.error(error);
@@ -44,6 +44,8 @@ const MeasureForm = () => {
     }
   };
 
+
+  const formattedDate = format(new Date(), 'dd/MM/yyyy');
 
   return (
     <form onSubmit={handleSubmit}>
@@ -70,14 +72,13 @@ const MeasureForm = () => {
             margin="normal"
           />
           <TextField
-        variant="outlined"
-        
-        type="date"
-        value={date}
-        required
-        onChange={(e) => setDate(e.target.value)}
-        margin="normal"
-      />
+            variant="outlined"
+            type="date"
+            value={formattedDate}
+            required
+            onChange={(e) => setDate(e.target.value)}
+            margin="normal"
+          />
           <TextField
             variant="outlined"
             label="Creator"
@@ -141,7 +142,7 @@ const MeasureForm = () => {
 
         </Grid>
 
-       
+
 
         <Button variant="contained" type="submit" fullWidth size="large">
           Submit

@@ -9,22 +9,24 @@ import {
   Typography,
   Avatar,
 } from "@mui/material"; 
-import { Link } from "react-router-dom"; 
+import { Link, useLocation, useNavigate } from "react-router-dom"; 
 
 
 
 export default function NavBar() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const profile = JSON.parse(localStorage.getItem("profile"));
-    setUser(profile);
-  }, []);
+    setUser(JSON.parse(localStorage.getItem("profile")))
+  }, [location]) 
 
   const logout = () => {
     localStorage.clear()
-
+    navigate("/SignIn")
   }
+ 
  
 
   return (
@@ -33,7 +35,7 @@ export default function NavBar() {
         sx={{
           display: "flex",
           alignItems: "center",
-          position: "-webkit-sticky",
+          
           position: "sticky",
           top: "-5px",
           zIndex: 2,
@@ -56,7 +58,7 @@ export default function NavBar() {
           }}
         > 
          <Typography 
-          variant="h4" component={Link} to="/"
+          variant="h4" component={Link} to="/Form"
           sx={{ flexGrow: 0.5, display: "flex", justifyContent: "flex-start", color: "#fff", textDecoration: "none" }}
         >
           SPC Statistical Process Control

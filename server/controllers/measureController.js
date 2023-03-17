@@ -37,6 +37,7 @@ const getMeasurementByPartId = (request, response) => {
 const createMeasurement = async (request, response) => {
   try {
     const {
+      
       batch_number,
       creator,
       approved,
@@ -47,8 +48,9 @@ const createMeasurement = async (request, response) => {
       sc4,
     } = request.body;
     const newMeasure = await pool.query(
-      `INSERT INTO spc_schema.measurement ( creator, approved, date, batch_number, sc1, sc2, sc3, sc4) 
+      `INSERT INTO spc_schema.measurement (  creator, approved, date, batch_number, sc1, sc2, sc3, sc4) 
       VALUES ($1, $2, $3,$4, $5, $6, $7, $8)`, [
+      
       creator,
       approved,
       Date, 

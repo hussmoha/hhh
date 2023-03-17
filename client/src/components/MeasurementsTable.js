@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useTable } from "react-table"; 
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
 import '../MeasurementsTable.css';
 
 
@@ -80,7 +82,15 @@ const MeasurementsTable = () => {
                 return (
                   <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
                 );
-              })}
+              })} 
+              <td>
+              <Button variant="outlined" color="inherit" startIcon={<DeleteIcon />}>
+        Delete
+      </Button> 
+      </td> 
+      <td>
+      <Button variant="outlined" color="inherit" >Update</Button>   
+      </td>
             </tr>
           );
         })}
