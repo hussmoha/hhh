@@ -20,7 +20,6 @@ const getMeasurements = (request, response) => {
 
 
 const getMeasurementByPartId = (request, response) => {
-  const partId = request.params.partId;
 
   pool.query(
     'SELECT * FROM spc_schema.measurement WHERE part_Id = $1',

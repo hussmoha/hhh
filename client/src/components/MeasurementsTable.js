@@ -88,9 +88,7 @@ const MeasurementsTable = () => {
         Delete
       </Button> 
       </td> 
-      <td>
-      <Button variant="outlined" color="inherit" >Update</Button>   
-      </td>
+     
             </tr>
           );
         })}
