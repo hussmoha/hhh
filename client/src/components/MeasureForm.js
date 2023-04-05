@@ -45,7 +45,7 @@ const MeasureForm = () => {
   };
 
 
-  const formattedDate = format(new Date(), 'dd/MM/yyyy');
+  
 
   return (
     <form onSubmit={handleSubmit}>
@@ -74,7 +74,7 @@ const MeasureForm = () => {
           <TextField
             variant="outlined"
             type="date"
-            value={formattedDate}
+            value={date}
             required
             onChange={(e) => setDate(e.target.value)}
             margin="normal"

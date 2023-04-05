@@ -6,7 +6,8 @@ import { Route, Routes} from "react-router-dom";
 import './App.css';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import MeasureForm from "./components/MeasureForm";
-import MeasurementsTable from "./components/MeasurementsTable";
+
+import Data from "./components/Data";
 
 
 
@@ -21,7 +22,7 @@ function App() {
           <Route path="/SignIn" element={<SignIn/>}/>
           <Route path="/" element={<SignIn/>}/>  
           <Route path='Form' element={<MeasureForm/>}/>
-          <Route path="/MeasurementDatas" element={<MeasurementsTable />}/>
+          <Route path="/MeasurementDatas" element={<Data />}/>
         </Routes>
         </div>
       </div>

@@ -5,7 +5,7 @@ const port = 3001;
 const Pool = require('pg').Pool
 const net = require('net');
 
-const HOST = '192.168.200.112';
+/*const HOST = '192.168.200.112';
 const PORT = 2114;
 
 
@@ -65,7 +65,7 @@ client.on('error', (err) => {
   console.error('Error:', err);
 });
 
-
+*/
 
 
 
