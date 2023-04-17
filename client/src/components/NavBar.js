@@ -24,7 +24,7 @@ export default function NavBar() {
 
   const logout = () => {
     localStorage.clear()
-    navigate("/SignIn")
+    navigate("/")
   }
  
  

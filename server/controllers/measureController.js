@@ -7,8 +7,9 @@ const pool = new Pool({
   port: 5432,
 });
 
+
 const getMeasurements = (request, response) => {
-  pool.query('SELECT * FROM spc_schema.measurement', (error, results) => {
+  pool.query('SELECT * FROM spc_schema.measurements', (error, results) => {
     if (error) {
       throw error;
     }
@@ -18,9 +19,9 @@ const getMeasurements = (request, response) => {
 };
 
 
-
+/*
 const getMeasurementByPartId = (request, response) => {
-
+const partId = request.params.id;
   pool.query(
     'SELECT * FROM spc_schema.measurement WHERE part_Id = $1',
     [partId],
@@ -32,32 +33,44 @@ const getMeasurementByPartId = (request, response) => {
     }
   );
 };
+*/
 
 const createMeasurement = async (request, response) => {
   try {
     const {
-      
-      batch_number,
-      creator,
-      approved,
-      Date,
-      sc1,
-      sc2,
-      sc3,
-      sc4,
+      decision,
+      score,
+      scale,
+      x,
+      y,
+      rotation,
+      sc2_decision,
+      sc2_valid,
+      sc2_distance,
+      sc3_decision,
+      sc3_valid,
+      sc3_distance, 
+      image_number
     } = request.body;
     const newMeasure = await pool.query(
-      `INSERT INTO spc_schema.measurement (  creator, approved, date, batch_number, sc1, sc2, sc3, sc4) 
-      VALUES ($1, $2, $3,$4, $5, $6, $7, $8)`, [
-      
-      creator,
-      approved,
-      Date, 
-      batch_number,
-      sc1,
-      sc2,
-      sc3,
-      sc4,])
+      `INSERT INTO spc_schema.measurements (decision, score, scale, x, y, rotation, sc2_decision, sc2_valid, sc2_distance, sc3_decision, sc3_valid, sc3_distance, image_number)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
+      [
+        decision,
+        score,
+        scale,
+        x,
+        y,
+        rotation,
+        sc2_decision,
+        sc2_valid,
+        sc2_distance,
+        sc3_decision,
+        sc3_valid,
+        sc3_distance,
+        image_number
+      ]
+    );
     response.json(newMeasure)
   } catch (err) {
     console.error(err.message)
@@ -65,38 +78,49 @@ const createMeasurement = async (request, response) => {
 
 };
 
-const updateMeasurement = (request, response) => {
-  const partId = request.params.partId;
-  const {
-    batch_number,
-    creator,
-    approved,
-    Date,
-    sc1,
-    sc2,
-    sc3,
-    sc4,
-  } = request.body;
 
+const updateMeasurement = (request, response) => {
+  
+  const { 
+  
+    score,
+    scale,
+    x,
+    y,
+    rotation,
+    sc2_decision,
+    sc2_valid,
+    sc2_distance,
+    sc3_decision,
+    sc3_valid,
+    sc3_distance, 
+    
+  } = request.body;
   pool.query(
-    'UPDATE spc_schema.measurement SET Batch_number = $1, creator = $2, date = $3, approved = $4, sc1 = $5, sc2 = $6, sc3 = $7, sc4 = $8 WHERE part_Id = $10',
-    [batch_number,
-      partId,
-      creator,
-      approved,
-      Date,
-      sc1,
-      sc2,
-      sc3,
-      sc4,],
+    'UPDATE spc_schema.measurements SET score = $1, scale = $2, x = $3, y = $4, rotation = $5, sc2_decision = $6, sc2_valid = $7, sc2_distance = $8, sc3_decision = $9, sc3_valid = $10, sc3_distance = $11 WHERE decision = $12',
+    [
+      score,
+      scale,
+      x,
+      y,
+      rotation,
+      sc2_decision,
+      sc2_valid,
+      sc2_distance,
+      sc3_decision,
+      sc3_valid,
+      sc3_distance,
+      decision,
+    ],
     (error, results) => {
       if (error) {
         throw error;
       }
-      response.status(200).send(`Measurement modified with partId: ${partId}`);
+      response.status(200).send(`Measurement modified with decision: ${decision}`);
     }
   );
 };
+
 
 const deleteMeasurement = (request, response) => {
   const partId = request.params.partId;
@@ -113,9 +137,11 @@ const deleteMeasurement = (request, response) => {
   );
 };
 
+
+
 module.exports = {
   getMeasurements,
-  getMeasurementByPartId,
+  //getMeasurementByPartId,
   createMeasurement,
   updateMeasurement,
   deleteMeasurement,

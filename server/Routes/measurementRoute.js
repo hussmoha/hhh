@@ -10,10 +10,9 @@ const {
 } = require('../controllers/measureController');
 
 router.get('/measurements', getMeasurements);
-router.get('/measurements/:partId', getMeasurementByPartId);
-router.post('/measurements', createMeasurement);
+//router.get('/measurements/:partId', getMeasurementByPartId);
+router.post('/measurements/create', createMeasurement);
 router.put('/measurements/:partId', updateMeasurement);
 router.delete('/measurements/:partId', deleteMeasurement);
-
 
 module.exports = router;
