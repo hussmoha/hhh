@@ -3,76 +3,70 @@ const app = express();
 const cors = require("cors");
 app.use(cors());
 const port = 3001;
-const Pool = require('pg').Pool
-const net = require('net'); 
-const axios = require('axios');
+const Pool = require("pg").Pool;
+const net = require("net");
+const axios = require("axios");
 
-const HOST = '192.168.200.112';
+const HOST = "192.168.200.112";
 const START_PORT = 2114;
 const CMD_PORT = START_PORT + 1;
 const TRIG_PORT = START_PORT + 1;
 
 // TCP connection for commands
 
-
 const cmdClient = net.createConnection({ host: HOST, port: CMD_PORT }, () => {
   console.log(`Connected to command server on port ${CMD_PORT}`);
 });
 
 // handle errors on the cmdClient
-cmdClient.on('error', (err) => {
+cmdClient.on("error", (err) => {
   console.log(`Error on command server connection: ${err}`);
 });
 
 // handle data received from the cmdClient
-cmdClient.on('data', (data) => {
+cmdClient.on("data", (data) => {
   console.log(`Data received from command server: ${data}`);
 });
 
 // handle the execute route
-app.post('/execute', (req, res) => {
-  cmdClient.write('TRIG');
+app.post("/execute", (req, res) => {
+  cmdClient.write("TRIG");
 
-  cmdClient.once('data', (data) => {
+  cmdClient.once("data", (data) => {
     const dataString = data.toString();
-    cmdClient.write('gRES');
+    cmdClient.write("gRES");
 
-    cmdClient.once('data', (result) => {
+    cmdClient.once("data", (result) => {
       const resultString = result.toString();
-      const measurements = resultString.split(';');
+      const measurements = resultString.split(";");
 
       const dataToSend = measurements.map((measurement) => {
         return { data: measurement };
       });
 
-      axios.post('http://localhost:3001/measurement', dataToSend)
+      axios
+        .post("http://localhost:3001/measurement", dataToSend)
         .then(() => {
-          res.send('Measurement created successfully');
+          res.send("Measurement created successfully");
         })
         .catch((err) => {
           console.log(err);
-          res.status(500).send('Error creating measurement');
+          res.status(500).send("Error creating measurement");
         });
     });
   });
 });
 
-
 // handle the close route
-app.post('/close', (req, res) => {
+app.post("/close", (req, res) => {
   cmdClient.end(() => {
-    console.log('Command server connection closed');
-    res.send('Command server connection closed');
+    console.log("Command server connection closed");
+    res.send("Command server connection closed");
   });
 });
 
-
- 
-  //console.log(data.toString())
-  // Send gRES command to get the result
-  
-
-
+//console.log(data.toString())
+// Send gRES command to get the result
 
 /*
 // TCP connection for image trigger
@@ -115,18 +109,17 @@ client.on("data", (data) => {
 });
 */
 
-
 // Handle errors on the command connection
-cmdClient.on('error', (err) => {
-  console.error('Error:', err);
+cmdClient.on("error", (err) => {
+  console.error("Error:", err);
 });
 
 // Handle errors on the trigger connection
 
-const measurementRoutes = require("./Routes/measurementRoute")
+const measurementRoutes = require("./Routes/measurementRoute");
 app.use(cors());
-app.use(express.json()); 
-app.use("/", measurementRoutes); 
+app.use(express.json());
+app.use("/", measurementRoutes);
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

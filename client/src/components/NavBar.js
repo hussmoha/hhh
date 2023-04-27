@@ -1,36 +1,42 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
 import {
   AppBar,
   Box,
-  Button,
+  IconButton,
+  Menu,
+  MenuItem,
   Toolbar,
- 
   Typography,
   Avatar,
-} from "@mui/material"; 
-import { Link, useLocation, useNavigate } from "react-router-dom"; 
-
-
-
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Search from "./Search";
 
 export default function NavBar() {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const [user, setUser] = React.useState(
+    JSON.parse(localStorage.getItem("profile"))
+  );
   const location = useLocation();
   const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
-  useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem("profile")))
-  }, [location]) 
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
 
   const logout = () => {
-    localStorage.clear()
-    navigate("/")
-  }
+    localStorage.clear();
+    navigate("/");
+  };
 
-  
- 
- 
+  React.useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("profile")));
+  }, [location]);
 
   return (
     <AppBar>
@@ -38,7 +44,6 @@ export default function NavBar() {
         sx={{
           display: "flex",
           alignItems: "center",
-          
           position: "sticky",
           top: "-5px",
           zIndex: 2,
@@ -59,53 +64,65 @@ export default function NavBar() {
             justifyContent: "space-between",
             padding: ".25rem",
           }}
-        > 
-         <Typography 
-          variant="h4" component={Link} to="/Form"
-          sx={{ flexGrow: 0.5, display: "flex", justifyContent: "flex-start", color: "#fff", textDecoration: "none" }}
         >
-          SPC Statistical Process Control
-        </Typography>
-         
-          <Button component={Link} to="/MeasurementDatas" variant="h6" color="inherit">
-            Measurements
-          </Button>
-          <Button variant="h6" color="inherit" >
-            Calibrations
-          </Button> 
-          
-          {user ? (
-            <>
-              <Box
-                style={{
-                  display: "flex",
-                  float: "right",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Avatar alt={user.result.name} src={user.result.imageUrl}>
-                  {user?.result.name?.charAt(0)}
-                </Avatar>
-                <Typography
-                  variant="h6"
-                  style={{
-                    marginLeft: "5px",
-                    marginTop: "3px",
-                    display: "block",
-                  }}
-                >
-                  {user?.result.name}
-                </Typography>
-                <Button
-                  style={{ marginLeft: "10px", display: "block" }}
-                  color="inherit"
-                  onClick={logout}
-                >
-                  Log out
-                </Button>
-              </Box>
-            </>
-          ) : null}
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+            onClick={handleMenuOpen}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+          >
+            <MenuItem component={Link} to="/Datas" onClick={handleMenuClose}>
+              Measurement report
+            </MenuItem>
+            <MenuItem component={Link} to="/Chart" onClick={handleMenuClose}>
+              SPC Chart
+            </MenuItem>
+            <MenuItem onClick={handleMenuClose}>Calibrations</MenuItem>
+            {user && (
+              <>
+                <MenuItem>
+                  <Avatar alt={user.result.name} src={user.result.imageUrl}>
+                    {user?.result.name?.charAt(0)}
+                  </Avatar>
+                  <Typography
+                    variant="h6"
+                    style={{
+                      marginLeft: "5px",
+                      marginTop: "3px",
+                      display: "block",
+                    }}
+                  >
+                    {user?.result.name}
+                  </Typography>
+                </MenuItem>
+                <MenuItem onClick={logout}>Log out</MenuItem>
+              </>
+            )}
+          </Menu>
+
+          <Typography
+            variant="h4"
+            component={Link}
+            to="/Form"
+            sx={{
+              flexGrow: 0.5,
+              display: "flex",
+              justifyContent: "flex-start",
+              color: "#fff",
+              textDecoration: "none",
+            }}
+          >
+            SPC Statistical Process Control
+          </Typography> 
+          <Search />
         </Box>
       </Toolbar>
     </AppBar>
