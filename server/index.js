@@ -13,20 +13,60 @@ const CMD_PORT = START_PORT + 1;
 const TRIG_PORT = START_PORT + 1;
 
 // TCP connection for commands
+
+
 const cmdClient = net.createConnection({ host: HOST, port: CMD_PORT }, () => {
-  console.log(`Connected to command server on port ${CMD_PORT}`); 
-  cmdClient.write('TRIG'); 
-
-});  
-
-
-cmdClient.on('data', (data) => {
-  const dataString = data.toString();
-  axios.post('http://localhost:3001/measurements/create', { data: dataString })
-    
-  
-  cmdClient.write('gRES');
+  console.log(`Connected to command server on port ${CMD_PORT}`);
 });
+
+// handle errors on the cmdClient
+cmdClient.on('error', (err) => {
+  console.log(`Error on command server connection: ${err}`);
+});
+
+// handle data received from the cmdClient
+cmdClient.on('data', (data) => {
+  console.log(`Data received from command server: ${data}`);
+});
+
+// handle the execute route
+app.post('/execute', (req, res) => {
+  cmdClient.write('TRIG');
+
+  cmdClient.once('data', (data) => {
+    const dataString = data.toString();
+    cmdClient.write('gRES');
+
+    cmdClient.once('data', (result) => {
+      const resultString = result.toString();
+      const measurements = resultString.split(';');
+
+      const dataToSend = measurements.map((measurement) => {
+        return { data: measurement };
+      });
+
+      axios.post('http://localhost:3001/measurement', dataToSend)
+        .then(() => {
+          res.send('Measurement created successfully');
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500).send('Error creating measurement');
+        });
+    });
+  });
+});
+
+
+// handle the close route
+app.post('/close', (req, res) => {
+  cmdClient.end(() => {
+    console.log('Command server connection closed');
+    res.send('Command server connection closed');
+  });
+});
+
+
  
   //console.log(data.toString())
   // Send gRES command to get the result

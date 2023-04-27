@@ -13,6 +13,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 
 
+
 export default function NavBar() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
   const location = useLocation();
@@ -26,6 +27,8 @@ export default function NavBar() {
     localStorage.clear()
     navigate("/")
   }
+
+  
  
  
 

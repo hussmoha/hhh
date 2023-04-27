@@ -46,8 +46,8 @@ const rows = [
 ];
 
 export default function CustomizedTables() { 
-
-  React.useEffect(() => {
+const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:3001/measurements");

@@ -14,23 +14,28 @@ import axios from "axios";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import { DataTable } from "../toolbox/DataTable";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Data = () => {
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get("http://localhost:3001/measurements");
-                console.log(response.data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        fetchData();
-    }, []); 
     
+  const [measurements, setMeasurements] = useState([]);
+
+  useEffect(() => { 
+    
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/measurements");
+        console.log(response.data);
+        setMeasurements(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
 
     return (
         <Paper
@@ -72,19 +77,19 @@ const Data = () => {
                     </Grid>
 
                     <Grid item>
-                        <Typography variant="h5">Variant: </Typography>
+                        <Typography variant="h5">Variant: 07</Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography variant="h5">Department:</Typography>
+                        <Typography variant="h5">Department: Quality</Typography>
                     </Grid>
                     <Grid item>
                         <Typography variant="h5">Order number: </Typography>
                     </Grid>
                     <Grid item>
-                        <Typography variant="h5">Gage equipment: </Typography>
+                        <Typography variant="h5">Gage equipment: ECLIPSE </Typography>
                     </Grid>
                     <Grid item>
-                        <Typography variant="h5">Operator: </Typography>
+                        <Typography variant="h5">Operator:</Typography>
                     </Grid>
                     <Grid item>
                         <Typography variant="h5">Time/Date: </Typography>

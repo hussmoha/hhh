@@ -51,7 +51,8 @@ const createMeasurement = async (request, response) => {
       sc3_valid,
       sc3_distance, 
       image_number
-    } = request.body;
+    } = request.body; 
+
     const newMeasure = await pool.query(
       `INSERT INTO spc_schema.measurements (decision, score, scale, x, y, rotation, sc2_decision, sc2_valid, sc2_distance, sc3_decision, sc3_valid, sc3_distance, image_number)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
@@ -71,12 +72,14 @@ const createMeasurement = async (request, response) => {
         image_number
       ]
     );
-    response.json(newMeasure)
-  } catch (err) {
-    console.error(err.message)
-  }
 
+    response.json(newMeasure);
+  } catch (err) {
+    console.error(err.message);
+    response.status(500).json({ error: 'Something went wrong' });
+  }
 };
+
 
 
 const updateMeasurement = (request, response) => {

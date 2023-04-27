@@ -7,6 +7,8 @@ import './App.css';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import MeasureForm from "./components/MeasureForm"; 
 import Data from "./components/Data";
+import ExecuteButton from "./components/ExecuteButton";
+//import MeasureButton from "./components/MeausreButton";
 
 
 
@@ -15,15 +17,18 @@ function App() {
 
   return (
     <GoogleOAuthProvider clientId='851970879521-al6kfvd8os51knkbtg9sljvbl35eii1d.apps.googleusercontent.com'>
-      <div className="App">
+      <div className="App"> 
+      
         <NavBar /> 
-        <div className="container">
+        <div className="container"> 
+        
         <Routes> 
           
           <Route path="/" element={<SignIn/>}/>  
-          <Route path='/Form' element={<MeasureForm/>}/>
+          
           <Route path="/Datas" element={<Data />}/>
-        </Routes>
+        </Routes> 
+        
         </div>
       </div>
     </GoogleOAuthProvider> 
