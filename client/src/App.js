@@ -9,6 +9,7 @@ import MeasureForm from "./components/MeasureForm";
 import Data from "./components/Data";
 import ExecuteButton from "./components/ExecuteButton";
 import SpcPlot from "./components/SpcPlot";
+import CalibrationForm from "./components/CalibrationForm";
 //import MeasureButton from "./components/MeausreButton";
 
 function App() {
@@ -22,7 +23,9 @@ function App() {
             <Route path="/" element={<SignIn />} />
             <Route path="/Chart" element={<SpcPlot />} />
             <Route path="/Datas" element={<Data />} />
-          </Routes>
+          </Routes> 
+
+          
         </div>
       </div>
     </GoogleOAuthProvider>

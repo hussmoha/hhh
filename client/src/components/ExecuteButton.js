@@ -3,9 +3,12 @@ import axios from "axios";
 import Button from "@mui/material/Button";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { useNavigate } from "react-router-dom";
+import { Typography } from "@mui/material";
 
 function ExecuteButton() {
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("profile"));
+  const data = {userName: user.result}
 
   const handleClick = () => {
     axios
@@ -19,11 +22,15 @@ function ExecuteButton() {
       });
   };
 
+
   return (
+    <>
     <Button variant="contained" onClick={handleClick}>
       Take measurement
       <PhotoCamera sx={{ ml: "10px" }} />
     </Button>
+    </>
+    
   );
 }
 

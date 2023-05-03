@@ -17,11 +17,11 @@ const getMeasurements = (request, response) => {
   });
 };
 
-/*
+
 const getMeasurementByPartId = (request, response) => {
 const partId = request.params.id;
   pool.query(
-    'SELECT * FROM spc_schema.measurement WHERE part_Id = $1',
+    'SELECT * FROM spc_schema.measurements WHERE part_Id = $1',
     [partId],
     (error, results) => {
       if (error) {
@@ -31,52 +31,49 @@ const partId = request.params.id;
     }
   );
 };
-*/
+
 
 const createMeasurement = async (request, response) => {
   try {
-    const {
-      decision,
-      score,
-      scale,
-      x,
-      y,
-      rotation,
-      sc2_decision,
-      sc2_valid,
-      sc2_distance,
-      sc3_decision,
-      sc3_valid,
-      sc3_distance,
-      image_number,
-    } = request.body;
+    const { MESSAGE } = request.body;
+    const created_time = new Date().toLocaleString()
+
+    console.log(created_time)
+
+    const { OBJECT_LOC, SC2_Diameter12_4mm, SC3_Diameter15mm } = MESSAGE;
 
     const newMeasure = await pool.query(
-      `INSERT INTO spc_schema.measurements (decision, score, scale, x, y, rotation, sc2_decision, sc2_valid, sc2_distance, sc3_decision, sc3_valid, sc3_distance, image_number)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
+      `INSERT INTO spc_schema.measurements (decision, score, scale, x, y, rotation, sc2_decision, sc2_valid, sc2_distance, sc3_decision, sc3_valid, sc3_distance, created_time)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *`,
       [
-        decision,
-        score,
-        scale,
-        x,
-        y,
-        rotation,
-        sc2_decision,
-        sc2_valid,
-        sc2_distance,
-        sc3_decision,
-        sc3_valid,
-        sc3_distance,
-        image_number,
-      ]
+        OBJECT_LOC.DECISION,
+        OBJECT_LOC.SCORE,
+        OBJECT_LOC.SCALE,
+        OBJECT_LOC.X,
+        OBJECT_LOC.Y,
+        OBJECT_LOC.ROTATION,
+        SC2_Diameter12_4mm.DECISION,
+        SC2_Diameter12_4mm.VALID,
+        SC2_Diameter12_4mm.DISTANCE,
+        SC3_Diameter15mm.DECISION,
+        SC3_Diameter15mm.VALID,
+        SC3_Diameter15mm.DISTANCE,
+        created_time,
+      ],
     );
 
-    response.json(newMeasure);
+    response.json(newMeasure.rows[0]);
   } catch (err) {
     console.error(err.message);
     response.status(500).json({ error: "Something went wrong" });
   }
 };
+
+
+
+
+
+
 
 const updateMeasurement = (request, response) => {
   const {
@@ -136,7 +133,7 @@ const deleteMeasurement = (request, response) => {
 
 module.exports = {
   getMeasurements,
-  //getMeasurementByPartId,
+  getMeasurementByPartId,
   createMeasurement,
   updateMeasurement,
   deleteMeasurement,

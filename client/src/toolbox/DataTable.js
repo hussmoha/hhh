@@ -13,7 +13,7 @@ export const DataTable = ({
     <TableRow>
       <TableCell>{rowName}</TableCell>
       <TableCell>
-        {value != null && !isNaN(value) ? value.toFixed(4) : ""}
+        {value}
       </TableCell>
       <TableCell>
         {nominalValue != null && !isNaN(nominalValue)

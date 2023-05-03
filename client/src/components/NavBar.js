@@ -111,7 +111,7 @@ export default function NavBar() {
           <Typography
             variant="h4"
             component={Link}
-            to="/Form"
+            to="/Trigger"
             sx={{
               flexGrow: 0.5,
               display: "flex",
