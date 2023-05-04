@@ -77,7 +77,8 @@ const Data = () => {
             >
               Print
             </Button>
-          </Grid>
+          </Grid> 
+          
 
           <Grid item>
             <Grid
@@ -88,8 +89,8 @@ const Data = () => {
               alignItems="flex-start"
             >
               <Grid item>
-                <Typography variant="h5">Part name:</Typography>
-              </Grid>
+                <Typography variant="h5">Part ID: {meas.partId}</Typography>
+              </Grid> 
               <Grid item>
                 <Typography variant="h5">Drawing number: </Typography>
               </Grid>
@@ -110,7 +111,7 @@ const Data = () => {
                 <Typography variant="h5">Operator:</Typography>
               </Grid>
               <Grid item>
-                <Typography variant="h5">Time/Date: </Typography>
+                <Typography variant="h5">Date & Time: {meas.created_time} </Typography>
               </Grid>
             </Grid>
           </Grid>

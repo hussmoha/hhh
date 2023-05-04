@@ -5,12 +5,13 @@ import { Route, Routes } from "react-router-dom";
 
 import "./App.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import MeasureForm from "./components/MeasureForm";
+
 import Data from "./components/Data";
 import ExecuteButton from "./components/ExecuteButton";
 import SpcPlot from "./components/SpcPlot";
-import CalibrationForm from "./components/CalibrationForm";
-//import MeasureButton from "./components/MeausreButton";
+
+import CalibrationTable from "./components/CalibrationTable";
+
 
 function App() {
   return (
@@ -23,9 +24,10 @@ function App() {
             <Route path="/" element={<SignIn />} />
             <Route path="/Chart" element={<SpcPlot />} />
             <Route path="/Datas" element={<Data />} />
-          </Routes> 
+            <Route path="/Calibration" element={<CalibrationTable />} />
+          </Routes>
 
-          
+
         </div>
       </div>
     </GoogleOAuthProvider>

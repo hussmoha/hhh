@@ -85,7 +85,7 @@ export default function NavBar() {
             <MenuItem component={Link} to="/Chart" onClick={handleMenuClose}>
               SPC Chart
             </MenuItem>
-            <MenuItem onClick={handleMenuClose}>Calibrations</MenuItem>
+            <MenuItem component={Link} to="/Calibration" onClick={handleMenuClose}>Calibrations</MenuItem>
             {user && (
               <>
                 <MenuItem>
