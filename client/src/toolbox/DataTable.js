@@ -1,14 +1,14 @@
 import React from "react";
 import { TableCell, TableRow } from "@mui/material";
 
-export const DataTable = ({
+export  function DataTable  ({
   rowName,
   value,
   nominalValue,
   upper,
   lower,
   deviation,
-}) => {
+})  {
   return (
     <TableRow>
       <TableCell>{rowName}</TableCell>

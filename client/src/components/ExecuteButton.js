@@ -7,15 +7,15 @@ import { useNavigate } from "react-router-dom";
 
 function ExecuteButton() {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("profile"));
-  const data = {userName: user.result}
+  
 
   const handleClick = () => {
     axios
       .post("http://localhost:3001/execute")
       .then((response) => {
         console.log(response.data);
-        navigate("/Datas");
+        alert('Success!'); 
+        navigate("http://localhost:3000/Datas");
       })
       .catch((error) => {
         console.log(error);
