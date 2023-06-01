@@ -38,7 +38,7 @@ const createMeasurement = async (request, response) => {
     const { MESSAGE } = request.body;
     const created_time = new Date().toLocaleString()
 
-    console.log(created_time)
+    
 
     const { OBJECT_LOC, SC2_Diameter12_4mm, SC3_Diameter15mm } = MESSAGE;
 
@@ -65,7 +65,7 @@ const createMeasurement = async (request, response) => {
     response.json(newMeasure.rows[0]);
   } catch (err) {
     console.error(err.message);
-    response.status(500).json({ error: "Something went wrong" });
+    response.status(500).json({ error: "Something went wrong kkk" });
   }
 };
 

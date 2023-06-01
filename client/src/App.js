@@ -6,11 +6,12 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
-import Data from "./components/Data";
 import ExecuteButton from "./components/ExecuteButton";
 import SpcPlot from "./components/SpcPlot";
 
 import CalibrationTable from "./components/CalibrationTable";
+
+import CollapsibleTable from "./components/List";
 
 
 function App() {
@@ -23,11 +24,10 @@ function App() {
             <Route path="/Trigger" element={<ExecuteButton />} />
             <Route path="/" element={<SignIn />} />
             <Route path="/Chart" element={<SpcPlot />} />
-            <Route path="/Datas" element={<Data />} />
+            <Route path="/Table" element={<CollapsibleTable />} /> 
+            
             <Route path="/Calibration" element={<CalibrationTable />} />
           </Routes>
-
-
         </div>
       </div>
     </GoogleOAuthProvider>

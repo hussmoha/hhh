@@ -10,35 +10,25 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import axios from "axios";
+
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import PrintIcon from "@mui/icons-material/Print";
 import { DataTable } from "../toolbox/DataTable";
-import { useEffect, useState } from "react";
 
-const Data = () => {
-  const [measurements, setMeasurements] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("http://localhost:3001/measurements");
-        console.log(response.data);
-        setMeasurements(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+const Data = ({meas}) => {
 
-    fetchData();
-  }, []);
+ 
+  
+    
+  
 
-  console.log(measurements)
+  console.log(meas)
 
   return (
-    <Paper>
-      {measurements.map(meas => (
+    
+      
         <Paper
           key={meas.partId}
           variant="outlined"
@@ -205,10 +195,7 @@ const Data = () => {
             </TableContainer>
           </Grid>
         </Paper>
-      )
-      )
-      }
-    </Paper>
+    
   );
 };
 

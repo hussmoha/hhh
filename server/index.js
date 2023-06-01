@@ -5,12 +5,12 @@ app.use(cors());
 const port = 3001;
 
 const net = require("net");
-const axios = require("axios");
+
 
 const HOST = "192.168.200.112";
 const CMD_PORT = 2115;
 
-// Import createMeasurement function from the controller module
+// Import createMeasurement 
 const { createMeasurement } = require('./controllers/measureController');
 
 // TCP connection for commands

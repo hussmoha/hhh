@@ -75,38 +75,40 @@ export default function NavBar() {
             <MenuIcon />
           </IconButton>
           <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-          >
-            <MenuItem component={Link} to="/Datas" onClick={handleMenuClose}>
-              Measurement report
-            </MenuItem>
-            <MenuItem component={Link} to="/Chart" onClick={handleMenuClose}>
-              SPC Chart
-            </MenuItem>
-            <MenuItem component={Link} to="/Calibration" onClick={handleMenuClose}>Calibrations</MenuItem>
-            {user && (
-              <>
-                <MenuItem>
-                  <Avatar alt={user.result.name} src={user.result.imageUrl}>
-                    {user?.result.name?.charAt(0)}
-                  </Avatar>
-                  <Typography
-                    variant="h6"
-                    style={{
-                      marginLeft: "5px",
-                      marginTop: "3px",
-                      display: "block",
-                    }}
-                  >
-                    {user?.result.name}
-                  </Typography>
-                </MenuItem>
-                <MenuItem onClick={logout}>Log out</MenuItem>
-              </>
-            )}
-          </Menu>
+  anchorEl={anchorEl}
+  open={Boolean(anchorEl)}
+  onClose={handleMenuClose}
+>
+  <MenuItem component={Link} to="/Table" onClick={handleMenuClose}>
+    Measurement report
+  </MenuItem>
+  <MenuItem component={Link} to="/Chart" onClick={handleMenuClose}>
+    SPC Chart
+  </MenuItem>
+  <MenuItem component={Link} to="/Calibration" onClick={handleMenuClose}>
+    Calibrations
+  </MenuItem>
+  {user && [
+    <MenuItem key="userAvatar">
+      <Avatar alt={user.result.name} src={user.result.imageUrl}>
+        {user?.result.name?.charAt(0)}
+      </Avatar>
+      <Typography
+        variant="h6"
+        style={{
+          marginLeft: "5px",
+          marginTop: "3px",
+          display: "block",
+        }}
+      >
+        {user?.result.name}
+      </Typography>
+    </MenuItem>,
+    <MenuItem key="logout" onClick={logout}>
+      Log out
+    </MenuItem>,
+  ]}
+</Menu>
 
           <Typography
             variant="h4"

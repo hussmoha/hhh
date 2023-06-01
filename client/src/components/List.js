@@ -13,7 +13,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import Data from "./components/Data";
+import Data from "./Data";
 
 function Row({ row }) {
   const [open, setOpen] = React.useState(false);
@@ -34,15 +34,14 @@ function Row({ row }) {
           {row.partId}
         </TableCell>
         <TableCell align="right">{row.created_time}</TableCell>
-       
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Data /> 
-            </Box>
-          </Collapse>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+  <Box sx={{ margin: 1 }}>
+    <Data meas={row} /> 
+  </Box>
+</Collapse>
         </TableCell>
       </TableRow>
     </React.Fragment>
@@ -57,14 +56,37 @@ export default function CollapsibleTable() {
       try {
         const response = await axios.get("http://localhost:3001/measurements");
         console.log(response.data);
-        setMeasurements(response.data);
+  
+        const sortedMeasurements = response.data.sort((a, b) => {
+          const aDate = parseDateString(a.created_time);
+          const bDate = parseDateString(b.created_time);
+  
+          return bDate - aDate;
+        });
+  
+        setMeasurements(sortedMeasurements);
       } catch (error) {
         console.error(error);
       }
-    };
+    }; 
 
+    console.log(measurements)
+  
+    const parseDateString = (dateString) => {
+      // Split date and time components
+      let [dateComponent, timeComponent] = dateString.split(',');
+  
+      // Swap day and month in date component
+      dateComponent = dateComponent.split('/').reverse().join('/');
+  
+      // Replace '.' with ':' in time component
+      timeComponent = timeComponent.trim().replace(/\./g, ':');
+  
+      return new Date(`${dateComponent} ${timeComponent}`);
+    };
+  
     fetchData();
-  }, []);
+  }, [measurements]);
 
   return (
     <TableContainer component={Paper}>
@@ -72,9 +94,8 @@ export default function CollapsibleTable() {
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>Measurement ID </TableCell>
+            <TableCell>Measurement ID</TableCell>
             <TableCell align="right">Date & Time</TableCell>
-            
           </TableRow>
         </TableHead>
         <TableBody>
